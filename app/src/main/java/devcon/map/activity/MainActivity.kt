@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
-            MainViewModelFactory(SampleRepository(this))
+            MainViewModelFactory(SampleRepository(applicationContext))
         ).get(MainViewModel::class.java)
         setContentView(binding.root)
 
