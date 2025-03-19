@@ -10,13 +10,13 @@ class SampleRepository(context: Context) {
     fun initData() {
         if (readData().isEmpty()) {
             for (i in 1..200) {
-                insertData(i.toLong(), "title$i")
+                insertData(SampleData(i.toLong(), "title $i"))
             }
         }
     }
 
-    fun insertData(id: Long, title: String): Long {
-        return dbHelper.insertData(id, title)
+    fun insertData(data: SampleData): Long {
+        return dbHelper.insertData(data)
     }
 
     fun readData(): List<SampleData> {
@@ -27,8 +27,8 @@ class SampleRepository(context: Context) {
         return dbHelper.deleteData(id)
     }
 
-    fun updateData(id: Long, title: String): Int {
-        return dbHelper.updateData(id, title)
+    fun updateData(data: SampleData): Int {
+        return dbHelper.updateData(data)
     }
 
 }

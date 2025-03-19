@@ -6,11 +6,12 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import devcon.map.repository.SampleRepository
 import devcon.map.viewmodel.MainViewModel
 
-class MainViewModelFactory(private val myRepository: SampleRepository) : ViewModelProvider.Factory {
+class MainViewModelFactory(private val sampleRepository: SampleRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return MainViewModel(myRepository) as T
+            return MainViewModel(sampleRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -33,8 +33,8 @@ class MyDatabaseHelper(context: Context) :
         }
     }
 
-    fun insertData(id: Long, title: String): Long {
-        return writableDatabase.insert(TABLE_NAME, null, values(id, title))
+    fun insertData(data: SampleData): Long {
+        return writableDatabase.insert(TABLE_NAME, null, values(data))
     }
 
     fun readData(): List<SampleData> {
@@ -54,24 +54,28 @@ class MyDatabaseHelper(context: Context) :
         return dataList
     }
 
-    fun updateData(id: Long, title: String): Int {
-        val selection = "$COLUMN_ID = ?"
-        val selectionArgs = arrayOf(id.toString())
-
-        return writableDatabase.update(TABLE_NAME, values(id, title), selection, selectionArgs)
+    fun updateData(data: SampleData): Int {
+        return writableDatabase.update(
+            TABLE_NAME,
+            values(data),
+            "$COLUMN_ID = ?",
+            selectionArgs(data.id)
+        )
     }
 
+    /** @param id id of data to delete **/
     fun deleteData(id: Long): Int {
-        val selection = "$COLUMN_ID = ?"
-        val selectionArgs = arrayOf(id.toString())
-
-        return writableDatabase.delete(TABLE_NAME, selection, selectionArgs)
+        return writableDatabase.delete(TABLE_NAME, "$COLUMN_ID = ?", selectionArgs(id))
     }
 
-    private fun values(id: Long, title: String): ContentValues {
+    private fun values(data: SampleData): ContentValues {
         return ContentValues().apply {
-            put(COLUMN_ID, id)
-            put(COLUMN_TITLE, title)
+            put(COLUMN_ID, data.id)
+            put(COLUMN_TITLE, data.title)
         }
+    }
+
+    private fun selectionArgs(id: Long): Array<String> {
+        return arrayOf(id.toString())
     }
 }
