@@ -2,22 +2,19 @@ package devcon.map.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import devcon.learn.contacts.R
+import devcon.map.abstracts.BaseRecyclerAdapter
 import devcon.map.data.SampleData
+import kotlinx.coroutines.flow.Flow
 
-class ContentRecyclerAdapter() : RecyclerView.Adapter<ContentViewHolder>() {
-
-    var itemList = emptyList<SampleData>()
+class ContentRecyclerAdapter(
+    itemFlow: Flow<List<SampleData>>
+) : BaseRecyclerAdapter<SampleData,ContentViewHolder>(itemFlow) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.content_recycler_holder, parent, false)
         return ContentViewHolder(view)
-    }
-
-    override fun getItemCount(): Int {
-        return itemList.size
     }
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {

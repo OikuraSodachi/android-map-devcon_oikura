@@ -3,6 +3,7 @@ package devcon.map.repository
 import android.content.Context
 import devcon.map.data.MyDatabaseHelper
 import devcon.map.data.SampleData
+import kotlinx.coroutines.flow.Flow
 
 class SampleRepository(context: Context) {
     private val dbHelper = MyDatabaseHelper(context)
@@ -13,6 +14,14 @@ class SampleRepository(context: Context) {
                 insertData(SampleData(i.toLong(), "title $i"))
             }
         }
+    }
+
+    fun dataFlow() :Flow<List<SampleData>> {
+        TODO()
+    }
+
+    fun historyFlow() :Flow<List<SampleData>> {
+        TODO()
     }
 
     fun insertData(data: SampleData): Long {

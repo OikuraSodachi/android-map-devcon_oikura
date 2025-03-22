@@ -30,12 +30,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setViewLogics() {
         binding.contentRecyclerView.run {
-            adapter = ContentRecyclerAdapter()
+            adapter = ContentRecyclerAdapter(
+                itemFlow = viewModel.dataFlow
+            )
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
 
         binding.historyRecyclerView.run {
-            adapter = HistoryRecyclerAdapter()
+            adapter = HistoryRecyclerAdapter(
+                itemFlow = viewModel.historyFlow
+            )
             layoutManager =
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
         }

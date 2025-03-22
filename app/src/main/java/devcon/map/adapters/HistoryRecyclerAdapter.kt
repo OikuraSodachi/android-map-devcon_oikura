@@ -2,13 +2,14 @@ package devcon.map.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import devcon.learn.contacts.R
+import devcon.map.abstracts.BaseRecyclerAdapter
 import devcon.map.data.SampleData
+import kotlinx.coroutines.flow.Flow
 
-class HistoryRecyclerAdapter() : RecyclerView.Adapter<HistoryViewHolder>() {
-
-    var itemList = emptyList<SampleData>()
+class HistoryRecyclerAdapter(
+    itemFlow: Flow<List<SampleData>>
+) : BaseRecyclerAdapter<SampleData,HistoryViewHolder>(itemFlow) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -16,12 +17,9 @@ class HistoryRecyclerAdapter() : RecyclerView.Adapter<HistoryViewHolder>() {
         return HistoryViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
-
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         holder.onInit(itemList[position])
     }
+
 
 }
