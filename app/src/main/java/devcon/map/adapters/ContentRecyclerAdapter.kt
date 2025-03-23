@@ -8,8 +8,9 @@ import devcon.map.data.SampleData
 import kotlinx.coroutines.flow.Flow
 
 class ContentRecyclerAdapter(
-    itemFlow: Flow<List<SampleData>>
-) : BaseRecyclerAdapter<SampleData,ContentViewHolder>(itemFlow) {
+    itemFlow: Flow<List<SampleData>>,
+    private val onClick: (data: SampleData) -> Unit
+) : BaseRecyclerAdapter<SampleData, ContentViewHolder>(itemFlow) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -18,6 +19,6 @@ class ContentRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        holder.onInit(itemList[position])
+        holder.onInit(itemList[position], { onClick(it) })
     }
 }

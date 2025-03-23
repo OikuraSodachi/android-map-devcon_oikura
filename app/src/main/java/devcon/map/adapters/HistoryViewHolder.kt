@@ -7,9 +7,12 @@ import devcon.learn.contacts.R
 import devcon.map.data.SampleData
 
 class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val historyTextView: TextView = itemView.findViewById(R.id.historyTextView)
+    private val historyTextView: TextView = itemView.findViewById(R.id.historyTextView)
 
-    fun onInit(data: SampleData) {
+    fun onInit(data: SampleData, onClick: (id: Long) -> Unit) {
         historyTextView.text = data.title
+        itemView.setOnClickListener {
+            onClick(data.id)
+        }
     }
 }

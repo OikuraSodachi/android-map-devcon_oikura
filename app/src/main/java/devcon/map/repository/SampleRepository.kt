@@ -16,28 +16,21 @@ class SampleRepository(context: Context) {
         }
     }
 
-    fun dataFlow() :Flow<List<SampleData>> {
-        TODO()
-    }
+    /** 전체 목록 **/
+    fun dataFlow(): Flow<List<SampleData>> = dbHelper.getDataAsFlow()
 
-    fun historyFlow() :Flow<List<SampleData>> {
-        TODO()
-    }
+    fun historyFlow(): Flow<List<SampleData>> = dbHelper.getHistoryAsFlow()
 
-    fun insertData(data: SampleData): Long {
-        return dbHelper.insertData(data)
-    }
+    fun insertData(data: SampleData) = dbHelper.insertData(data)
 
-    fun readData(): List<SampleData> {
-        return dbHelper.readData()
-    }
+    fun insertHistory(data: SampleData) = dbHelper.insertHistory(data)
 
-    fun deleteData(id: Long): Int {
-        return dbHelper.deleteData(id)
-    }
+    fun readData(): List<SampleData> = dbHelper.readData()
 
-    fun updateData(data: SampleData): Int {
-        return dbHelper.updateData(data)
-    }
+    fun deleteData(id: Long) = dbHelper.deleteData(id)
+
+    fun deleteHistory(id: Long) = dbHelper.deleteHistory(id)
+
+    fun updateData(data: SampleData) = dbHelper.updateData(data)
 
 }
