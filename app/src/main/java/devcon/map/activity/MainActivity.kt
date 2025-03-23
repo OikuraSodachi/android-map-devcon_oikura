@@ -63,6 +63,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             searchEditText.addTextChangedListener(SearchTextWatcher { viewModel.afterChanged(it) })
+            clearButton.setOnClickListener {
+                searchEditText.text?.clear()
+            }
         }
     }
 }
