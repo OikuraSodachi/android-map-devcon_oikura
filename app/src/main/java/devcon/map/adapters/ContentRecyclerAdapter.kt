@@ -23,7 +23,7 @@ class ContentRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        holder.onInit(itemList[position])
+        holder.onInit(itemList()[position])
     }
 
 }

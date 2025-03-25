@@ -16,17 +16,18 @@ abstract class BaseRecyclerAdapter<E : Any, VH : RecyclerView.ViewHolder>(
 ) : RecyclerView.Adapter<VH>() {
 
     private val itemLiveData = itemFlow.asLiveData()
-    var itemList = emptyList<E>()
+    private var _itemList = emptyList<E>()
+    fun itemList() = _itemList
 
     private val observer = Observer<List<E>> {
-        val oldList = itemList
-        itemList = it
+        val oldList = itemList()
+        _itemList = it
         notifyDataSetRefreshed(oldList, it)
     }
 
     @CallSuper
     /** [notifyDataSetChanged] 의 최적화 버전 (?) **/
-    open fun notifyDataSetRefreshed(oldList: List<E>, newList: List<E> = itemList) {
+    open fun notifyDataSetRefreshed(oldList: List<E>, newList: List<E> = itemList()) {
         val diffResult = DiffUtil.calculateDiff(BaseRecyclerDiffUtil(oldList, newList))
         diffResult.dispatchUpdatesTo(this)
     }   // oldList 와 newList 를 비교해서 dataSetChanged 적용
@@ -38,7 +39,7 @@ abstract class BaseRecyclerAdapter<E : Any, VH : RecyclerView.ViewHolder>(
     }
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return itemList().size
     }
 
     @CallSuper

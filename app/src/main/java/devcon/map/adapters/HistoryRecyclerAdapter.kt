@@ -22,7 +22,7 @@ class HistoryRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.onInit(itemList[position])
+        holder.onInit(itemList()[position])
     }
 
 }
