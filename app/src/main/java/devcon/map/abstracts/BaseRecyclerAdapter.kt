@@ -17,6 +17,7 @@ abstract class BaseRecyclerAdapter<E : Any, VH : RecyclerView.ViewHolder>(
 
     private val itemLiveData = itemFlow.asLiveData()
     var itemList = emptyList<E>()
+
     private val observer = Observer<List<E>> {
         val oldList = itemList
         itemList = it
