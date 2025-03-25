@@ -12,13 +12,18 @@ class ContentRecyclerAdapter(
     private val onClick: (data: SampleData) -> Unit
 ) : BaseRecyclerAdapter<SampleData, ContentViewHolder>(itemFlow) {
 
+    override fun areItemsSame(oldItem: SampleData, newItem: SampleData): Boolean {
+        return oldItem.id == newItem.id
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.content_recycler_holder, parent, false)
-        return ContentViewHolder(view)
+        return ContentViewHolder(view, { onClick(it) })
     }
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        holder.onInit(itemList[position], { onClick(it) })
+        holder.onInit(itemList[position])
     }
+
 }

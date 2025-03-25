@@ -2,17 +2,18 @@ package devcon.map.adapters
 
 import android.view.View
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import devcon.learn.contacts.R
+import devcon.map.abstracts.BaseRecyclerViewHolder
 import devcon.map.data.SampleData
 
-class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class HistoryViewHolder(itemView: View, private val onClick: (id: Long) -> Unit) :
+    BaseRecyclerViewHolder<SampleData>(itemView) {
     private val historyTextView: TextView = itemView.findViewById(R.id.historyTextView)
 
-    fun onInit(data: SampleData, onClick: (id: Long) -> Unit) {
-        historyTextView.text = data.title
+    override fun onInit(item: SampleData) {
+        historyTextView.text = item.title
         itemView.setOnClickListener {
-            onClick(data.id)
+            onClick(item.id)
         }
     }
 }

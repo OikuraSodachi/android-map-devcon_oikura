@@ -11,15 +11,18 @@ class HistoryRecyclerAdapter(
     itemFlow: Flow<List<SampleData>>,
     private val onClick: (id: Long) -> Unit
 ) : BaseRecyclerAdapter<SampleData, HistoryViewHolder>(itemFlow) {
+    override fun areItemsSame(oldItem: SampleData, newItem: SampleData): Boolean {
+        return oldItem.id == newItem.id
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.history_recycler_holder, parent, false)
-        return HistoryViewHolder(view)
+        return HistoryViewHolder(view, { onClick(it) })
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.onInit(itemList[position], { onClick(it) })
+        holder.onInit(itemList[position])
     }
 
 }
