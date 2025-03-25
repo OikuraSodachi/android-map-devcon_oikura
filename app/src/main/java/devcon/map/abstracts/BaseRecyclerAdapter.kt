@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
  *
  * Automatically handles recyclerView Item update
  *  @param itemFlow [Flow] of itemList **/
-abstract class BaseRecyclerAdapter<E : Any, VH : BaseRecyclerViewHolder<E>>(
+abstract class BaseRecyclerAdapter<E : Any, VH : RecyclerView.ViewHolder>(
     itemFlow: Flow<List<E>>,
 ) : RecyclerView.Adapter<VH>() {
 
