@@ -18,14 +18,15 @@ import devcon.map.viewmodel.MainViewModel
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private lateinit var viewModel: MainViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(
+    private val viewModel by lazy {
+        ViewModelProvider(
             this,
             MainViewModelFactory(SampleRepository(applicationContext))
         ).get(MainViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         setViewLogics()
@@ -64,9 +65,8 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            searchEditText.run{
-                setOnFocusChangeListener{
-                        _, hasFocus ->
+            searchEditText.run {
+                setOnFocusChangeListener { _, hasFocus ->
                     enableResultArea(hasFocus)
                 }
                 setOnClickListener {
@@ -76,16 +76,16 @@ class MainActivity : AppCompatActivity() {
                 addTextChangedListener(SearchTextWatcher { viewModel.afterChanged(it) })
             }
         }
-        onBackPressedDispatcher.addCallback{
-            if(binding.searchResultArea.visibility == View.VISIBLE){
+        onBackPressedDispatcher.addCallback {
+            if (binding.searchResultArea.visibility == View.VISIBLE) {
                 enableResultArea(false)
-            }else{
+            } else {
                 finish()
             }
         }
     }
 
-    private fun enableResultArea(enabled:Boolean){
-        binding.searchResultArea.visibility = if(enabled) View.VISIBLE else View.GONE
+    private fun enableResultArea(enabled: Boolean) {
+        binding.searchResultArea.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 }
