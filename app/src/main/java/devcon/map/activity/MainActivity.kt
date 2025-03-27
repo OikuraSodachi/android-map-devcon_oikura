@@ -1,6 +1,8 @@
 package devcon.map.activity
 
 import android.os.Bundle
+import android.view.View
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -62,10 +64,31 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            searchEditText.addTextChangedListener(SearchTextWatcher { viewModel.afterChanged(it) })
+            searchEditText.run{
+                setOnFocusChangeListener{
+                        _, hasFocus ->
+                    enableResultArea(hasFocus)
+                }
+                setOnClickListener {
+                    enableResultArea(true)
+                }
+
+                addTextChangedListener(SearchTextWatcher { viewModel.afterChanged(it) })
+            }
             clearButton.setOnClickListener {
                 searchEditText.text?.clear()
             }
         }
+        onBackPressedDispatcher.addCallback{
+            if(binding.searchResultArea.visibility == View.VISIBLE){
+                enableResultArea(false)
+            }else{
+                finish()
+            }
+        }
+    }
+
+    private fun enableResultArea(enabled:Boolean){
+        binding.searchResultArea.visibility = if(enabled) View.VISIBLE else View.GONE
     }
 }
