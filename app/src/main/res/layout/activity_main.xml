@@ -8,35 +8,22 @@
     android:paddingHorizontal="5dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/searchInputArea"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_weight="1"
+        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/searchInputLayout"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/searchEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/search_hint" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageButton
-            android:id="@+id/clearButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@android:drawable/ic_input_delete" />
-
-    </LinearLayout>
+            android:hint="@string/search_hint" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/searchResultArea"
@@ -47,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchInputArea">
+        app:layout_constraintTop_toBottomOf="@+id/searchInputLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/historyRecyclerView"

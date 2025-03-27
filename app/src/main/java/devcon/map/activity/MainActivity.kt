@@ -75,9 +75,6 @@ class MainActivity : AppCompatActivity() {
 
                 addTextChangedListener(SearchTextWatcher { viewModel.afterChanged(it) })
             }
-            clearButton.setOnClickListener {
-                searchEditText.text?.clear()
-            }
         }
         onBackPressedDispatcher.addCallback{
             if(binding.searchResultArea.visibility == View.VISIBLE){
