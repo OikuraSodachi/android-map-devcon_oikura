@@ -16,6 +16,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val testKey = properties.get("API_KEY").toString()
+        resValue( "string", "testValue", properties["API_KEY"].toString())
+
     }
 
     buildTypes {
@@ -41,6 +45,7 @@ android {
 
 dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation("com.kakao.maps.open:android:2.12.8")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

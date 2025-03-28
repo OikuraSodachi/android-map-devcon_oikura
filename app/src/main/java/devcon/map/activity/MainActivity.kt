@@ -3,19 +3,19 @@ package devcon.map.activity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import devcon.learn.contacts.databinding.ActivityMainBinding
 import devcon.map.MainViewModelFactory
 import devcon.map.SearchTextWatcher
+import devcon.map.abstracts.KakaoMapActivity
 import devcon.map.adapters.ContentRecyclerAdapter
 import devcon.map.adapters.HistoryRecyclerAdapter
 import devcon.map.repository.SampleRepository
 import devcon.map.viewmodel.MainViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : KakaoMapActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel by lazy {
@@ -24,6 +24,12 @@ class MainActivity : AppCompatActivity() {
             MainViewModelFactory(SampleRepository(applicationContext))
         ).get(MainViewModel::class.java)
     }
+
+    override val kakaoMapView by lazy { binding.mapView }
+
+    override val api_key by lazy { "temporaryString" }  // api key 임시 값
+
+    //override val api_key by lazy { TODO() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +41,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setViewLogics() {
         binding.run {
+            mapView.start(testCallback, testReadyCallback)
+
             contentRecyclerView.run {
                 adapter = ContentRecyclerAdapter(
                     itemFlow = viewModel.contentFlow,
