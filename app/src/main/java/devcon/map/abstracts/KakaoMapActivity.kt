@@ -8,7 +8,9 @@ import com.kakao.vectormap.KakaoMapSdk
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
 
+/** KakaoMap 관련 로직은 전부 이쪽으로 몰아넣을 것 **/
 abstract class KakaoMapActivity() : AppCompatActivity() {
+
     abstract val kakaoMapView: MapView
     private val apiKey: String = "1"  // Todo: REST API KEY 전달하기
     val testCallback = object : MapLifeCycleCallback() {
