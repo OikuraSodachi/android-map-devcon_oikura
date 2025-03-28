@@ -27,14 +27,10 @@ class MainActivity : KakaoMapActivity() {
 
     override val kakaoMapView by lazy { binding.mapView }
 
-    override val api_key by lazy { "temporaryString" }  // api key 임시 값
-
-    //override val api_key by lazy { TODO() }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
+        //  println("hash: ${Utility.getKeyHash(this)}")
         setViewLogics()
         viewModel.checkDB()
     }

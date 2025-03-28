@@ -10,7 +10,7 @@ import com.kakao.vectormap.MapView
 
 abstract class KakaoMapActivity() : AppCompatActivity() {
     abstract val kakaoMapView: MapView
-    abstract val api_key: String
+    private val apiKey: String = "1"  // Todo: REST API KEY 전달하기
     val testCallback = object : MapLifeCycleCallback() {
         override fun onMapDestroy() {
 
@@ -29,7 +29,7 @@ abstract class KakaoMapActivity() : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        KakaoMapSdk.init(this, api_key)
+        KakaoMapSdk.init(this, apiKey)
     }
 
     override fun onResume() {
