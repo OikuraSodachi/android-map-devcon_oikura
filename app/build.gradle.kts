@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -24,10 +27,19 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            val localProperties = Properties()
+            localProperties.load(FileInputStream(rootProject.file("local.properties")))
+            buildConfigField("String", "API_KEY", localProperties["REST_API_KEY"].toString())
+        }
+        debug {
+            val localProperties = Properties()
+            localProperties.load(FileInputStream(rootProject.file("local.properties")))
+            buildConfigField("String", "API_KEY", localProperties["REST_API_KEY"].toString())
         }
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

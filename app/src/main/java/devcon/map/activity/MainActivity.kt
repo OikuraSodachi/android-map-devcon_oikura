@@ -31,7 +31,6 @@ class MainActivity : KakaoMapActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        //  println("hash: ${Utility.getKeyHash(this)}")
         setViewLogics()
     }
 
