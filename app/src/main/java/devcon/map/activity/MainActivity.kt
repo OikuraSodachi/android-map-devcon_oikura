@@ -33,7 +33,6 @@ class MainActivity : KakaoMapActivity() {
         //  println("hash: ${Utility.getKeyHash(this)}")
         setViewLogics()
         viewModel.checkDB()
-        viewModel.test()
     }
 
     private fun setViewLogics() {

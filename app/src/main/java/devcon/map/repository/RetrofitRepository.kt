@@ -8,13 +8,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitRepository {
-    /*
-    fun getSearchResult(keyword:String){
-        KeywordSearchRetrofit.retrofit.create(KeywordSearchService::class.java)
-            .getKeywordSearchResult().enqueue()
-    }
-
-     */
 
     fun searchKeyword(
         query: String,

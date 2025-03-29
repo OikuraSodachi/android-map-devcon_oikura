@@ -4,30 +4,41 @@ import androidx.lifecycle.ViewModel
 import devcon.map.data.SampleData
 import devcon.map.repository.RetrofitRepository
 import devcon.map.repository.SampleRepository
-import devcon.map.restapi.KeywordSearchResponse
+import devcon.map.restapi.KeywordDocument
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val sampleRepository: SampleRepository) : ViewModel() {
-
-    private val searchFlow = MutableStateFlow("")
+    private val retrofitRepository = RetrofitRepository()
 
     /** sort 기준을 다듬을 필요가 있을듯? **/
     val historyFlow = sampleRepository.historyFlow()
 
-    val contentFlow: Flow<List<SampleData>> = combine(
+    /*
+    val contentFlowOriginal: Flow<List<SampleData>> = combine(
         sampleRepository.dataFlow(),
         searchFlow
     ) { data, search ->
         matchDataFilter(data, search)
     }
+     */
+
+    val _contentFlow = MutableStateFlow<List<KeywordDocument>>(emptyList())
+    val contentFlow: StateFlow<List<KeywordDocument>>
+        get() = _contentFlow
 
     fun afterChanged(text: String) {
-        searchFlow.value = text
+        retrofitRepository.searchKeyword(
+            query = text,
+            callback = { response ->
+                response?.let{
+                    _contentFlow.value = it.documents
+                }
+            }
+        )
     }
 
     /** db 초기 값 setter **/
@@ -43,25 +54,12 @@ class MainViewModel(private val sampleRepository: SampleRepository) : ViewModel(
         }
     }
 
-    fun onSelectItem(data: SampleData) {
+    fun onSelectItem(data: KeywordDocument) {
+        /*
         CoroutineScope(Dispatchers.IO).launch {
             sampleRepository.insertHistory(data)
         }
-    }
-
-    fun callbackTest(response:KeywordSearchResponse?){
-        response?.let{
-            val list = it.documents
-            println("size: ${list.size}")
-            println("test: ${list.map{it.place_name}}")
-        }
-    }
-
-    fun test(){
-        RetrofitRepository().searchKeyword(
-            "가나다",
-            callback = {callbackTest(it)}
-        )
+         */
     }
 
     /** 검색 데이터 필터링 **/

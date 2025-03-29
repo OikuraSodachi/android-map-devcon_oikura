@@ -5,15 +5,16 @@ import android.view.ViewGroup
 import devcon.learn.contacts.R
 import devcon.map.abstracts.BaseRecyclerAdapter
 import devcon.map.data.SampleData
+import devcon.map.restapi.KeywordDocument
 import kotlinx.coroutines.flow.Flow
 
 class ContentRecyclerAdapter(
-    itemFlow: Flow<List<SampleData>>,
-    private val onClick: (data: SampleData) -> Unit
-) : BaseRecyclerAdapter<SampleData, ContentViewHolder>(itemFlow) {
+    itemFlow: Flow<List<KeywordDocument>>,
+    private val onClick: (data: KeywordDocument) -> Unit
+) : BaseRecyclerAdapter<KeywordDocument, ContentViewHolder>(itemFlow) {
 
-    override fun areItemsSame(oldItem: SampleData, newItem: SampleData): Boolean {
-        return oldItem.id == newItem.id
+    override fun areItemsSame(oldItem: KeywordDocument, newItem: KeywordDocument): Boolean {
+        return oldItem.address_name == newItem.address_name
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
