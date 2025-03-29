@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val sampleRepository: SampleRepository) : ViewModel() {
-    private val retrofitRepository = RetrofitRepository()
+class MainViewModel(private val sampleRepository: SampleRepository,  private val retrofitRepository : RetrofitRepository) : ViewModel() {
 
     /** sort 기준을 다듬을 필요가 있을듯? **/
     val historyFlow = sampleRepository.historyFlow()

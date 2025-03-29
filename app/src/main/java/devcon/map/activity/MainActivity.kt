@@ -12,6 +12,7 @@ import devcon.map.SearchTextWatcher
 import devcon.map.abstracts.KakaoMapActivity
 import devcon.map.adapters.ContentRecyclerAdapter
 import devcon.map.adapters.HistoryRecyclerAdapter
+import devcon.map.repository.RetrofitRepository
 import devcon.map.repository.SampleRepository
 import devcon.map.viewmodel.MainViewModel
 
@@ -21,7 +22,7 @@ class MainActivity : KakaoMapActivity() {
     private val viewModel by lazy {
         ViewModelProvider(
             this,
-            MainViewModelFactory(SampleRepository(applicationContext))
+            MainViewModelFactory(SampleRepository(applicationContext), RetrofitRepository())
         ).get(MainViewModel::class.java)
     }
 
