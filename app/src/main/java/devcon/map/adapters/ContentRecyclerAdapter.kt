@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import devcon.learn.contacts.R
 import devcon.map.abstracts.BaseRecyclerAdapter
-import devcon.map.data.SampleData
 import devcon.map.restapi.KeywordDocument
 import kotlinx.coroutines.flow.Flow
 
@@ -14,7 +13,7 @@ class ContentRecyclerAdapter(
 ) : BaseRecyclerAdapter<KeywordDocument, ContentViewHolder>(itemFlow) {
 
     override fun areItemsSame(oldItem: KeywordDocument, newItem: KeywordDocument): Boolean {
-        return oldItem.address_name == newItem.address_name
+        return oldItem.place_name == newItem.place_name
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {

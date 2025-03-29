@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import devcon.learn.contacts.R
 import devcon.map.abstracts.BaseRecyclerAdapter
-import devcon.map.data.SampleData
+import devcon.map.restapi.KeywordDocument
 import kotlinx.coroutines.flow.Flow
 
 class HistoryRecyclerAdapter(
-    itemFlow: Flow<List<SampleData>>,
-    private val onClick: (id: Long) -> Unit
-) : BaseRecyclerAdapter<SampleData, HistoryViewHolder>(itemFlow) {
-    override fun areItemsSame(oldItem: SampleData, newItem: SampleData): Boolean {
-        return oldItem.id == newItem.id
+    itemFlow: Flow<List<KeywordDocument>>,
+    private val onClick: (placeName: String) -> Unit
+) : BaseRecyclerAdapter<KeywordDocument, HistoryViewHolder>(itemFlow) {
+    override fun areItemsSame(oldItem: KeywordDocument, newItem: KeywordDocument): Boolean {
+        return oldItem.place_name == newItem.place_name
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {

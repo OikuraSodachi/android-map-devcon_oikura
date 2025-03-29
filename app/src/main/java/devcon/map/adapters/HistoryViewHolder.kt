@@ -4,16 +4,16 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import devcon.learn.contacts.R
-import devcon.map.data.SampleData
+import devcon.map.restapi.KeywordDocument
 
-class HistoryViewHolder(itemView: View, private val onClick: (id: Long) -> Unit) :
+class HistoryViewHolder(itemView: View, private val onClick: (placeName: String) -> Unit) :
     RecyclerView.ViewHolder(itemView) {
     private val historyTextView: TextView = itemView.findViewById(R.id.historyTextView)
 
-    fun onInit(item: SampleData) {
-        historyTextView.text = item.title
+    fun onInit(item: KeywordDocument) {
+        historyTextView.text = item.place_name
         itemView.setOnClickListener {
-            onClick(item.id)
+            onClick(item.place_name)
         }
     }
 }

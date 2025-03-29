@@ -24,25 +24,26 @@ class RetrofitRepository {
 
         val apiService = retrofit.create(KeywordSearchService::class.java)
 
-        apiService.searchKeyword(query, x, y, radius, rect).enqueue(object : retrofit2.Callback<KeywordSearchResponse> {
-            override fun onResponse(
-                call: Call<KeywordSearchResponse>,
-                response: Response<KeywordSearchResponse>
-            ) {
-                if (response.isSuccessful) {
-                    callback(response.body())
-                } else {
-                    // API 호출 실패 처리
-                    println("API 호출 실패: ${response.errorBody()?.string()}")
+        apiService.searchKeyword(query, x, y, radius, rect)
+            .enqueue(object : retrofit2.Callback<KeywordSearchResponse> {
+                override fun onResponse(
+                    call: Call<KeywordSearchResponse>,
+                    response: Response<KeywordSearchResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        callback(response.body())
+                    } else {
+                        // API 호출 실패 처리
+                        println("API 호출 실패: ${response.errorBody()?.string()}")
+                        callback(null)
+                    }
+                }
+
+                override fun onFailure(call: Call<KeywordSearchResponse>, t: Throwable) {
+                    // 네트워크 오류 등 처리
+                    println("API 호출 실패: ${t.message}")
                     callback(null)
                 }
-            }
-
-            override fun onFailure(call: Call<KeywordSearchResponse>, t: Throwable) {
-                // 네트워크 오류 등 처리
-                println("API 호출 실패: ${t.message}")
-                callback(null)
-            }
-        })
+            })
     }
 }

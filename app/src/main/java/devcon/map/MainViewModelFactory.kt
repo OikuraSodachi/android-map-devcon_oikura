@@ -7,7 +7,10 @@ import devcon.map.repository.RetrofitRepository
 import devcon.map.repository.SampleRepository
 import devcon.map.viewmodel.MainViewModel
 
-class MainViewModelFactory(private val sampleRepository: SampleRepository, private val retrofitRepository : RetrofitRepository) :
+class MainViewModelFactory(
+    private val sampleRepository: SampleRepository,
+    private val retrofitRepository: RetrofitRepository
+) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
