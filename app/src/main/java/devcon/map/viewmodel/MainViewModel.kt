@@ -2,7 +2,9 @@ package devcon.map.viewmodel
 
 import androidx.lifecycle.ViewModel
 import devcon.map.data.SampleData
+import devcon.map.repository.RetrofitRepository
 import devcon.map.repository.SampleRepository
+import devcon.map.restapi.KeywordSearchResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -45,6 +47,21 @@ class MainViewModel(private val sampleRepository: SampleRepository) : ViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             sampleRepository.insertHistory(data)
         }
+    }
+
+    fun callbackTest(response:KeywordSearchResponse?){
+        response?.let{
+            val list = it.documents
+            println("size: ${list.size}")
+            println("test: ${list.map{it.place_name}}")
+        }
+    }
+
+    fun test(){
+        RetrofitRepository().searchKeyword(
+            "가나다",
+            callback = {callbackTest(it)}
+        )
     }
 
     /** 검색 데이터 필터링 **/

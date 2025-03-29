@@ -33,9 +33,14 @@ class MainActivity : KakaoMapActivity() {
         //  println("hash: ${Utility.getKeyHash(this)}")
         setViewLogics()
         viewModel.checkDB()
+        viewModel.test()
     }
 
     private fun setViewLogics() {
+
+        fun enableResultArea(enabled: Boolean) {
+            binding.searchResultArea.visibility = if (enabled) View.VISIBLE else View.GONE
+        }
         binding.run {
             mapView.start(testCallback, testReadyCallback)
 
@@ -87,9 +92,5 @@ class MainActivity : KakaoMapActivity() {
                 finish()
             }
         }
-    }
-
-    private fun enableResultArea(enabled: Boolean) {
-        binding.searchResultArea.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 }

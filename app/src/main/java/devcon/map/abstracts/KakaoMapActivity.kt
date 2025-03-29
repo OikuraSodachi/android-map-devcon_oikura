@@ -12,7 +12,7 @@ import com.kakao.vectormap.MapView
 abstract class KakaoMapActivity() : AppCompatActivity() {
 
     abstract val kakaoMapView: MapView
-    private val apiKey: String = "1"  // Todo: REST API KEY 전달하기
+    private val apiKey: String = "a6591e6528ce2d5d50a355b4ef960222"  // Todo: REST API KEY 전달하기
     val testCallback = object : MapLifeCycleCallback() {
         override fun onMapDestroy() {
 
