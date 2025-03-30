@@ -24,9 +24,6 @@ class MyDatabaseHelper(context: Context) :
         const val PLACE_NAME = "place_name"
         const val ADDRESS_NAME = "address_name"
         const val ROAD_ADDRESS_NAME = "road_address_name"
-        const val X_COORDINATE = "x"
-        const val Y_COORDINATE = "y"
-        const val DISTANCE = "distance"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -34,10 +31,7 @@ class MyDatabaseHelper(context: Context) :
             CREATE TABLE $HISTORY_TABLE_NAME (
                 $PLACE_NAME TEXT,
                 $ADDRESS_NAME TEXT,
-                $ROAD_ADDRESS_NAME TEXT,
-                $X_COORDINATE TEXT,
-                $Y_COORDINATE TEXT,
-                $DISTANCE TEXT
+                $ROAD_ADDRESS_NAME TEXT
             )
         """.trimIndent()
 
@@ -66,18 +60,12 @@ class MyDatabaseHelper(context: Context) :
                 val placeName = getString(getColumnIndexOrThrow(PLACE_NAME))
                 val addressName = getString(getColumnIndexOrThrow(ADDRESS_NAME))
                 val roadAddressName = getString(getColumnIndexOrThrow(ROAD_ADDRESS_NAME))
-                val xCoordinate = getString(getColumnIndexOrThrow(X_COORDINATE))
-                val yCoordinate = getString(getColumnIndexOrThrow(Y_COORDINATE))
-                val distance = getString(getColumnIndexOrThrow(DISTANCE))
 
                 dataList.add(
                     KeywordDocument(
                         placeName,
                         addressName,
-                        roadAddressName,
-                        xCoordinate,
-                        yCoordinate,
-                        distance
+                        roadAddressName
                     )
                 )
             }
@@ -99,9 +87,6 @@ class MyDatabaseHelper(context: Context) :
             put(PLACE_NAME, data.place_name)
             put(ADDRESS_NAME, data.address_name)
             put(ROAD_ADDRESS_NAME, data.road_address_name)
-            put(X_COORDINATE, data.x)
-            put(Y_COORDINATE, data.y)
-            put(DISTANCE, data.distance)
         }
     }
 

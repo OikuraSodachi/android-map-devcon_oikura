@@ -7,7 +7,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface KeywordSearchService {
-    @Headers("Authorization: KakaoAK ${BuildConfig.API_KEY}") // 여기에 발급받은 REST API 키를 넣으세요.
+    @Headers("Authorization: KakaoAK ${BuildConfig.API_KEY}")
     @GET("v2/local/search/keyword.json")
     fun searchKeyword(
         @Query("query") query: String,
