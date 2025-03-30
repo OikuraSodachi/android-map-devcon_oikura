@@ -7,13 +7,16 @@ import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.KakaoMapSdk
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
+import devcon.learn.contacts.BuildConfig
 
-/** KakaoMap 관련 로직은 전부 이쪽으로 몰아넣을 것 **/
+/** KakaoMap 관련 로직은 전부 이쪽으로 몰아넣을 것
+ *
+ * activity lifecycle 에 따른 kakaoMap 로직 케어 **/
 abstract class KakaoMapActivity() : AppCompatActivity() {
 
     abstract val kakaoMapView: MapView
-    private val apiKey: String = "a6591e6528ce2d5d50a355b4ef960222"  // Todo: REST API KEY 전달하기
-    val testCallback = object : MapLifeCycleCallback() {
+    private val apiKey: String = BuildConfig.APP_KEY
+    val mapLifeCycleCallback = object : MapLifeCycleCallback() {
         override fun onMapDestroy() {
 
         }
@@ -23,7 +26,7 @@ abstract class KakaoMapActivity() : AppCompatActivity() {
         }
     }
 
-    val testReadyCallback = object : KakaoMapReadyCallback() {
+    val kakaoMapReadyCallback = object : KakaoMapReadyCallback() {
         override fun onMapReady(p0: KakaoMap) {
 
         }

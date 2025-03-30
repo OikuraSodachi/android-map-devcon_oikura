@@ -30,11 +30,13 @@ android {
             val localProperties = Properties()
             localProperties.load(FileInputStream(rootProject.file("local.properties")))
             buildConfigField("String", "API_KEY", localProperties["REST_API_KEY"].toString())
+            buildConfigField("String", "APP_KEY", localProperties["APP_KEY"].toString())
         }
         debug {
             val localProperties = Properties()
             localProperties.load(FileInputStream(rootProject.file("local.properties")))
             buildConfigField("String", "API_KEY", localProperties["REST_API_KEY"].toString())
+            buildConfigField("String", "APP_KEY", localProperties["APP_KEY"].toString())
         }
     }
     buildFeatures {

@@ -5,7 +5,7 @@ import devcon.map.data.MyDatabaseHelper
 import devcon.map.restapi.KeywordDocument
 import kotlinx.coroutines.flow.Flow
 
-class SampleRepository(context: Context) {
+class HistoryRepository(context: Context) {
     private val dbHelper = MyDatabaseHelper(context)
 
     fun historyFlow(): Flow<List<KeywordDocument>> = dbHelper.getHistoryAsFlow()
