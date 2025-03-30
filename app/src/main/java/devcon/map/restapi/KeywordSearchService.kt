@@ -11,11 +11,7 @@ interface KeywordSearchService {
     @GET("v2/local/search/keyword.json")
     fun searchKeyword(
         @Query("query") query: String,
-        @Query("x") x: String? = null,
-        @Query("y") y: String? = null,
-        @Query("radius") radius: Int? = null,
-        @Query("rect") rect: String? = null,
-        @Query("page") page: Int = 1,
+        @Query("page") page: Int,
         @Query("size") size: Int = 15,
         @Query("sort") sort: String? = null
     ): Call<KeywordSearchResponse>

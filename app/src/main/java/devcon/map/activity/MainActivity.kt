@@ -13,8 +13,8 @@ import devcon.map.MainViewModelFactory
 import devcon.map.abstracts.KakaoMapActivity
 import devcon.map.adapters.ContentRecyclerAdapter
 import devcon.map.adapters.HistoryRecyclerAdapter
-import devcon.map.repository.RetrofitRepository
 import devcon.map.repository.HistoryRepository
+import devcon.map.repository.RetrofitRepository
 import devcon.map.viewmodel.MainViewModel
 
 class MainActivity : KakaoMapActivity() {
@@ -82,13 +82,14 @@ class MainActivity : KakaoMapActivity() {
                 }
 
                 addTextChangedListener(
-                    object: TextWatcher{
+                    object : TextWatcher {
                         override fun beforeTextChanged(
                             p0: CharSequence?,
                             p1: Int,
                             p2: Int,
                             p3: Int
-                        ) {}
+                        ) {
+                        }
 
                         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 

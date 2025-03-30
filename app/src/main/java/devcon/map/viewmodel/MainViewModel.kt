@@ -1,13 +1,13 @@
 package devcon.map.viewmodel
 
 import androidx.lifecycle.ViewModel
-import devcon.map.repository.RetrofitRepository
+import androidx.lifecycle.viewModelScope
 import devcon.map.repository.HistoryRepository
+import devcon.map.repository.RetrofitRepository
 import devcon.map.restapi.KeywordDocument
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -18,19 +18,16 @@ class MainViewModel(
     /** sort 기준을 다듬을 필요가 있을듯? **/
     val historyFlow = historyRepository.historyFlow()
 
-    private val _contentFlow = MutableStateFlow<List<KeywordDocument>>(emptyList())
-    val contentFlow: StateFlow<List<KeywordDocument>>
-        get() = _contentFlow
+    val contentFlow: Flow<List<KeywordDocument>>
+        get() = retrofitRepository.searchKeywordHolder
 
     fun afterChanged(text: String) {
-        retrofitRepository.searchKeyword(
-            query = text,
-            callback = { response ->
-                response?.let {
-                    _contentFlow.value = it.documents
-                }
-            }
-        )
+        viewModelScope.launch {
+            retrofitRepository.searchKeyword(
+                query = text,
+                page = 2
+            )
+        }
     }
 
     fun onDeleteHistory(placeName: String) {

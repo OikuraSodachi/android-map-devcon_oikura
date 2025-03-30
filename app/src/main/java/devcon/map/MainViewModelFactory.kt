@@ -3,8 +3,8 @@ package devcon.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import devcon.map.repository.RetrofitRepository
 import devcon.map.repository.HistoryRepository
+import devcon.map.repository.RetrofitRepository
 import devcon.map.viewmodel.MainViewModel
 
 class MainViewModelFactory(
