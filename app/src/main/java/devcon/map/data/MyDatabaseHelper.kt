@@ -87,19 +87,9 @@ class MyDatabaseHelper(context: Context) :
         return dataList
     }
 
-    private fun update(data: KeywordDocument, table: String): Int {
-        val result = writableDatabase.update(
-            table,
-            values(data),
-            "$PLACE_NAME = ?",
-            selectionArgs(data.place_name)
-        )
-        notifyDataChanged()
-        return result
-    }
-
-    private fun delete(placeName: String, table: String): Int {
-        val result = writableDatabase.delete(table, "$PLACE_NAME = ?", selectionArgs(placeName))
+    private fun delete(placeName: String, addressName: String, table: String): Int {
+        val args = "$PLACE_NAME = ? AND $ADDRESS_NAME = ?"
+        val result = writableDatabase.delete(table, args, arrayOf(placeName, addressName))
         notifyDataChanged()
         return result
     }
@@ -115,17 +105,9 @@ class MyDatabaseHelper(context: Context) :
         }
     }
 
-    private fun selectionArgs(placeName: String): Array<String> {
-        return arrayOf(placeName)
-    }
-
     fun insertHistory(data: KeywordDocument) = insert(data, HISTORY_TABLE_NAME)
-
-    fun readHistory() = read(HISTORY_TABLE_NAME)
-
-    fun updateHistory(data: KeywordDocument) = update(data, HISTORY_TABLE_NAME)
-
-    fun deleteHistory(placeName: String) = delete(placeName, HISTORY_TABLE_NAME)
+    fun deleteHistory(placeName: String, addressName: String) =
+        delete(placeName, addressName, HISTORY_TABLE_NAME)
 
     //----------- Flow part -----------
 

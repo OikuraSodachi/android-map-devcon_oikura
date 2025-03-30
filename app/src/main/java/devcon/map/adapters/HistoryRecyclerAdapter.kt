@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.Flow
 
 class HistoryRecyclerAdapter(
     itemFlow: Flow<List<KeywordDocument>>,
-    private val onClick: (placeName: String) -> Unit
+    private val onClick: (data: KeywordDocument) -> Unit
 ) : BaseRecyclerAdapter<KeywordDocument, HistoryViewHolder>(itemFlow) {
     override fun areItemsSame(oldItem: KeywordDocument, newItem: KeywordDocument): Boolean {
-        return oldItem.place_name == newItem.place_name
+        return (oldItem.place_name == newItem.place_name) && (oldItem.address_name == newItem.address_name)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {

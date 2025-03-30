@@ -13,7 +13,7 @@ class ContentRecyclerAdapter(
 ) : BaseRecyclerAdapter<KeywordDocument, ContentViewHolder>(itemFlow) {
 
     override fun areItemsSame(oldItem: KeywordDocument, newItem: KeywordDocument): Boolean {
-        return oldItem.place_name == newItem.place_name
+        return (oldItem.place_name == newItem.place_name) && (oldItem.address_name == newItem.address_name)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {

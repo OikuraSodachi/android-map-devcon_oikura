@@ -12,5 +12,6 @@ class HistoryRepository(context: Context) {
 
     fun insertHistory(data: KeywordDocument) = dbHelper.insertHistory(data)
 
-    fun deleteHistory(placeName: String) = dbHelper.deleteHistory(placeName)
+    fun deleteHistory(placeName: String, address: String) =
+        dbHelper.deleteHistory(placeName, address)
 }
