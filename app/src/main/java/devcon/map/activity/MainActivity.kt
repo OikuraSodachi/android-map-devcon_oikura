@@ -13,6 +13,8 @@ import devcon.map.MainViewModelFactory
 import devcon.map.abstracts.KakaoMapActivity
 import devcon.map.adapters.ContentRecyclerAdapter
 import devcon.map.adapters.HistoryRecyclerAdapter
+import devcon.map.data.room.MyDatabase
+import devcon.map.repository.DataStoreRepository
 import devcon.map.repository.HistoryRepository
 import devcon.map.repository.RetrofitRepository
 import devcon.map.viewmodel.MainViewModel
@@ -23,7 +25,11 @@ class MainActivity : KakaoMapActivity() {
     private val viewModel by lazy {
         ViewModelProvider(
             this,
-            MainViewModelFactory(HistoryRepository(applicationContext), RetrofitRepository())
+            MainViewModelFactory(
+                dataStoreRepository = DataStoreRepository(applicationContext),
+                retrofitRepository = RetrofitRepository(),
+                historyRepository = HistoryRepository(MyDatabase.getInstance(applicationContext).keywordHistoryDao())
+            )
         ).get(MainViewModel::class.java)
     }
 

@@ -2,6 +2,7 @@ package devcon.map.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import devcon.map.repository.DataStoreRepository
 import devcon.map.repository.HistoryRepository
 import devcon.map.repository.RetrofitRepository
 import devcon.map.restapi.KeywordDocument
@@ -12,8 +13,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val historyRepository: HistoryRepository,
-    private val retrofitRepository: RetrofitRepository
+    private val dataStoreRepository: DataStoreRepository,
+    private val retrofitRepository: RetrofitRepository,
+    private val historyRepository: HistoryRepository
 ) : ViewModel() {
 
     /** 쿼리 넣을 페이지 수 ( keywordDocument 의 최대 갯수 == 15 * searchQuantity )**/
@@ -21,6 +23,8 @@ class MainViewModel(
 
     /** sort 기준을 다듬을 필요가 있을듯? **/
     val historyFlow = historyRepository.historyFlow()
+
+    suspend fun getStartPoint() = Pair(dataStoreRepository.getX(),dataStoreRepository.getY())
 
     private val _contentFlow = MutableStateFlow<List<KeywordDocument>>(emptyList())
     val contentFlow: Flow<List<KeywordDocument>>

@@ -13,6 +13,8 @@ interface KeywordSearchService {
         @Query("query") query: String,
         @Query("page") page: Int,
         @Query("size") size: Int = 15,
+        @Query("x") x: String? = null,
+        @Query("y") y: String? = null,
         @Query("sort") sort: String? = null
     ): Call<KeywordSearchResponse>
 }

@@ -1,17 +1,31 @@
 package devcon.map.repository
 
-import android.content.Context
-import devcon.map.data.MyDatabaseHelper
+import devcon.map.data.room.KeywordHistory
+import devcon.map.data.room.KeywordHistoryDao
 import devcon.map.restapi.KeywordDocument
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class HistoryRepository(context: Context) {
-    private val dbHelper = MyDatabaseHelper(context)
+class HistoryRepository(private val historyDao: KeywordHistoryDao) {
 
-    fun historyFlow(): Flow<List<KeywordDocument>> = dbHelper.getHistoryAsFlow()
+    fun historyFlow() = historyDao.getAll().map {
+        it.map{
+            it.toKeywordDocument()
+        }
+    }
 
-    fun insertHistory(data: KeywordDocument) = dbHelper.insertHistory(data)
+    suspend fun insertHistory(data: KeywordDocument){
+        historyDao.insert(data.toKeywordHistory())
+    }
 
-    fun deleteHistory(placeName: String, address: String) =
-        dbHelper.deleteHistory(placeName, address)
+    suspend fun deleteHistory(placeName:String,addressName:String){
+        historyDao.delete(placeName,addressName)
+    }
+
+    private fun KeywordDocument.toKeywordHistory() = KeywordHistory(
+        place_name = place_name,
+        address_name = address_name,
+        road_address_name = road_address_name,
+        x = x,
+        y = y
+    )
 }
