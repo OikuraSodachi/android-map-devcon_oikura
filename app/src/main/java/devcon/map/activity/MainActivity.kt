@@ -1,10 +1,9 @@
 package devcon.map.activity
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.activity.addCallback
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,7 +52,11 @@ class MainActivity : KakaoMapActivity() {
     }
 
     override fun onMapErrorCallback(exception: Exception?) {
-        // TODO: error 발생 시 화면 처리
+        binding.run{
+            mapView.visibility = View.GONE
+            errorLayout.visibility = View.VISIBLE
+            errorMessage.text = exception?.message
+        }
     }
 
     private fun enableResultArea(enabled: Boolean) {
@@ -62,41 +65,9 @@ class MainActivity : KakaoMapActivity() {
 
     private fun setViewLogics() {
         binding.run {
-            mapView.start(mapLifeCycleCallback, kakaoMapReadyCallback)
-
-            contentRecyclerView.run {
-                adapter = ContentRecyclerAdapter(
-                    itemFlow = viewModel.contentFlow,
-                    onClick = {
-                        enableResultArea(false)
-                        kakaoMapReadyCallback.test(LatLng.from(it.y.toDouble(), it.x.toDouble()))
-                        viewModel.saveHistory(it)
-                    }
-                )
-                layoutManager = LinearLayoutManager(this@MainActivity)
-                addItemDecoration(
-                    DividerItemDecoration(
-                        this@MainActivity,
-                        LinearLayoutManager.VERTICAL
-                    )
-                )
-            }
-
-            historyRecyclerView.run {
-                adapter = HistoryRecyclerAdapter(
-                    itemFlow = viewModel.historyFlow,
-                    onClick = { viewModel.onDeleteHistory(it) }
-                )
-                layoutManager =
-                    LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
-                addItemDecoration(
-                    DividerItemDecoration(
-                        this@MainActivity,
-                        LinearLayoutManager.HORIZONTAL
-                    )
-                )
-
-            }
+            startMapView()
+            initContentRecyclerView()
+            initHistoryRecyclerView()
 
             searchEditText.run {
                 setOnFocusChangeListener { _, hasFocus ->
@@ -105,25 +76,13 @@ class MainActivity : KakaoMapActivity() {
                 setOnClickListener {
                     enableResultArea(true)
                 }
-
-                addTextChangedListener(
-                    object : TextWatcher {
-                        override fun beforeTextChanged(
-                            p0: CharSequence?,
-                            p1: Int,
-                            p2: Int,
-                            p3: Int
-                        ) {
-                        }
-
-                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-                        override fun afterTextChanged(p0: Editable?) {
-                            viewModel.afterChanged(p0.toString())
-                        }
-
-                    }
-                )
+                doAfterTextChanged {
+                    viewModel.afterChanged(it.toString())
+                }
+            }
+            errorButton.setOnClickListener {
+                // 대충 재시도
+                startMapView()
             }
         }
         onBackPressedDispatcher.addCallback {
@@ -133,5 +92,46 @@ class MainActivity : KakaoMapActivity() {
                 finish()
             }
         }
+    }
+
+    private fun initContentRecyclerView(){
+        binding.contentRecyclerView.run{
+            adapter = ContentRecyclerAdapter(
+                itemFlow = viewModel.contentFlow,
+                onClick = {
+                    enableResultArea(false)
+                    kakaoMapReadyCallback.test(LatLng.from(it.y.toDouble(), it.x.toDouble()))
+                    viewModel.saveHistory(it)
+                }
+            )
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@MainActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
+        }
+    }
+
+    private fun initHistoryRecyclerView(){
+        binding.historyRecyclerView.run {
+            adapter = HistoryRecyclerAdapter(
+                itemFlow = viewModel.historyFlow,
+                onClick = { viewModel.onDeleteHistory(it) }
+            )
+            layoutManager =
+                LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@MainActivity,
+                    LinearLayoutManager.HORIZONTAL
+                )
+            )
+        }
+    }
+
+    private fun startMapView(){
+        binding.mapView.start(mapLifeCycleCallback, kakaoMapReadyCallback)
     }
 }
