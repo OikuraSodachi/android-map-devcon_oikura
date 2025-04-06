@@ -8,7 +8,7 @@ import devcon.map.abstracts.BaseRecyclerAdapter
 import devcon.map.restapi.KeywordDocument
 
 class ContentRecyclerAdapter(
-    diffUtil:DiffUtil.ItemCallback<KeywordDocument>,
+    diffUtil: DiffUtil.ItemCallback<KeywordDocument>,
     private val onClick: (data: KeywordDocument) -> Unit
 ) : BaseRecyclerAdapter<KeywordDocument, ContentViewHolder>(diffUtil) {
 

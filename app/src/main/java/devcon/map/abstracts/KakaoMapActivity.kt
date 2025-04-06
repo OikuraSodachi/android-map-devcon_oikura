@@ -9,6 +9,7 @@ import com.kakao.vectormap.KakaoMapSdk
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
+import com.kakao.vectormap.camera.CameraUpdate
 import com.kakao.vectormap.camera.CameraUpdateFactory
 import devcon.learn.contacts.BuildConfig
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ abstract class KakaoMapActivity() : AppCompatActivity() {
     private val apiKey: String = BuildConfig.APP_KEY
     private lateinit var kakaoMap: KakaoMap
     abstract fun onMapErrorCallback(exception: Exception?)
+    private fun cameraMoveCallback(latLng: LatLng) = CameraUpdateFactory.newCenterPosition(latLng)
 
     val mapLifeCycleCallback = object : MapLifeCycleCallback() {
 
@@ -37,13 +39,13 @@ abstract class KakaoMapActivity() : AppCompatActivity() {
     abstract suspend fun getStartPoint(): LatLng
     abstract fun saveLastPoint(position: LatLng)
 
-    val kakaoMapReadyCallback = object : MapReadyCallback() {
+    val kakaoMapReadyCallback = object : MapReadyCallback(callback = { cameraMoveCallback(it) }) {
 
         override fun onMapReady(map: KakaoMap) {
             kakaoMap = map
             lifecycleScope.launch {
                 map.moveCamera(
-                    cameraMoveCallback(getStartPoint())
+                    callback(getStartPoint())
                 )
             }
             map.setOnCameraMoveEndListener { _, cameraPosition, _ ->
@@ -67,10 +69,14 @@ abstract class KakaoMapActivity() : AppCompatActivity() {
         kakaoMapView.pause()
     }
 
-    abstract inner class MapReadyCallback() : KakaoMapReadyCallback() {
-        fun cameraMoveCallback(latLng: LatLng) = CameraUpdateFactory.newCenterPosition(latLng)
+    abstract inner class MapReadyCallback(val callback: (LatLng) -> CameraUpdate) :
+        KakaoMapReadyCallback() {
         fun moveCamera(latLng: LatLng) {
-            kakaoMap.moveCamera(cameraMoveCallback(latLng))
+            kakaoMap.moveCamera(callback(latLng))
+        }
+
+        fun showMarker(latLng: LatLng) {
+            // 미완성
         }
     }
 }

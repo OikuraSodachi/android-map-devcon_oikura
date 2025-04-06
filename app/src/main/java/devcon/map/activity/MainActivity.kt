@@ -55,7 +55,7 @@ class MainActivity : KakaoMapActivity() {
     }
 
     override fun onMapErrorCallback(exception: Exception?) {
-        binding.run{
+        binding.run {
             mapView.visibility = View.GONE
             errorLayout.visibility = View.VISIBLE
             errorMessage.text = exception?.message
@@ -97,16 +97,19 @@ class MainActivity : KakaoMapActivity() {
         }
     }
 
-    private fun initContentRecyclerView(){
+    private fun initContentRecyclerView() {
         val contentAdapter = ContentRecyclerAdapter(
             diffUtil = ContentDiffUtil(),
             onClick = {
                 enableResultArea(false)
-                kakaoMapReadyCallback.moveCamera(LatLng.from(it.y.toDouble(), it.x.toDouble()))
+                kakaoMapReadyCallback.run {
+                    moveCamera(LatLng.from(it.y.toDouble(), it.x.toDouble()))
+                    showMarker(LatLng.from(it.y.toDouble(), it.x.toDouble()))
+                }
                 viewModel.saveHistory(it)
             }
         )
-        binding.contentRecyclerView.run{
+        binding.contentRecyclerView.run {
             adapter = contentAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(
@@ -115,16 +118,15 @@ class MainActivity : KakaoMapActivity() {
                     LinearLayoutManager.VERTICAL
                 )
             )
-            viewModel.contentFlow.asLiveData().observe(this@MainActivity){
+            viewModel.contentFlow.asLiveData().observe(this@MainActivity) {
                 contentAdapter.submitList(it)
             }
         }
     }
 
-    private fun initHistoryRecyclerView(){
+    private fun initHistoryRecyclerView() {
         binding.historyRecyclerView.run {
             val historyAdapter = HistoryRecyclerAdapter(
-                //  itemFlow = viewModel.historyFlow,
                 diffUtil = HistoryDiffUtil(),
                 onClick = { viewModel.onDeleteHistory(it) }
             )
@@ -137,13 +139,13 @@ class MainActivity : KakaoMapActivity() {
                     LinearLayoutManager.HORIZONTAL
                 )
             )
-            viewModel.historyFlow.asLiveData().observe(this@MainActivity){
+            viewModel.historyFlow.asLiveData().observe(this@MainActivity) {
                 historyAdapter.submitList(it)
             }
         }
     }
 
-    private fun startMapView(){
+    private fun startMapView() {
         binding.mapView.start(mapLifeCycleCallback, kakaoMapReadyCallback)
     }
 }
