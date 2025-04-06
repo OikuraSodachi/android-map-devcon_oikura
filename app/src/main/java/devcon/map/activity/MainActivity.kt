@@ -100,7 +100,7 @@ class MainActivity : KakaoMapActivity() {
                 itemFlow = viewModel.contentFlow,
                 onClick = {
                     enableResultArea(false)
-                    kakaoMapReadyCallback.test(LatLng.from(it.y.toDouble(), it.x.toDouble()))
+                    kakaoMapReadyCallback.moveCamera(LatLng.from(it.y.toDouble(), it.x.toDouble()))
                     viewModel.saveHistory(it)
                 }
             )

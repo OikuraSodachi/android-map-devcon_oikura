@@ -69,7 +69,7 @@ abstract class KakaoMapActivity() : AppCompatActivity() {
 
     abstract inner class MapReadyCallback() : KakaoMapReadyCallback() {
         fun cameraMoveCallback(latLng: LatLng) = CameraUpdateFactory.newCenterPosition(latLng)
-        fun test(latLng: LatLng) {
+        fun moveCamera(latLng: LatLng) {
             kakaoMap.moveCamera(cameraMoveCallback(latLng))
         }
     }
