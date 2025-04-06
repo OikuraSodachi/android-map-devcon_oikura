@@ -5,13 +5,16 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kakao.vectormap.LatLng
 import devcon.learn.contacts.databinding.ActivityMainBinding
 import devcon.map.MainViewModelFactory
 import devcon.map.abstracts.KakaoMapActivity
+import devcon.map.adapters.ContentDiffUtil
 import devcon.map.adapters.ContentRecyclerAdapter
+import devcon.map.adapters.HistoryDiffUtil
 import devcon.map.adapters.HistoryRecyclerAdapter
 import devcon.map.data.room.MyDatabase
 import devcon.map.repository.DataStoreRepository
@@ -95,15 +98,16 @@ class MainActivity : KakaoMapActivity() {
     }
 
     private fun initContentRecyclerView(){
+        val contentAdapter = ContentRecyclerAdapter(
+            diffUtil = ContentDiffUtil(),
+            onClick = {
+                enableResultArea(false)
+                kakaoMapReadyCallback.moveCamera(LatLng.from(it.y.toDouble(), it.x.toDouble()))
+                viewModel.saveHistory(it)
+            }
+        )
         binding.contentRecyclerView.run{
-            adapter = ContentRecyclerAdapter(
-                itemFlow = viewModel.contentFlow,
-                onClick = {
-                    enableResultArea(false)
-                    kakaoMapReadyCallback.moveCamera(LatLng.from(it.y.toDouble(), it.x.toDouble()))
-                    viewModel.saveHistory(it)
-                }
-            )
+            adapter = contentAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(
                 DividerItemDecoration(
@@ -111,15 +115,20 @@ class MainActivity : KakaoMapActivity() {
                     LinearLayoutManager.VERTICAL
                 )
             )
+            viewModel.contentFlow.asLiveData().observe(this@MainActivity){
+                contentAdapter.submitList(it)
+            }
         }
     }
 
     private fun initHistoryRecyclerView(){
         binding.historyRecyclerView.run {
-            adapter = HistoryRecyclerAdapter(
-                itemFlow = viewModel.historyFlow,
+            val historyAdapter = HistoryRecyclerAdapter(
+                //  itemFlow = viewModel.historyFlow,
+                diffUtil = HistoryDiffUtil(),
                 onClick = { viewModel.onDeleteHistory(it) }
             )
+            adapter = historyAdapter
             layoutManager =
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(
@@ -128,6 +137,9 @@ class MainActivity : KakaoMapActivity() {
                     LinearLayoutManager.HORIZONTAL
                 )
             )
+            viewModel.historyFlow.asLiveData().observe(this@MainActivity){
+                historyAdapter.submitList(it)
+            }
         }
     }
 

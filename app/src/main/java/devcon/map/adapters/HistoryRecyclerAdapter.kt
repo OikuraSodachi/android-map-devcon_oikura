@@ -2,18 +2,15 @@ package devcon.map.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import devcon.learn.contacts.R
 import devcon.map.abstracts.BaseRecyclerAdapter
 import devcon.map.restapi.KeywordDocument
-import kotlinx.coroutines.flow.Flow
 
 class HistoryRecyclerAdapter(
-    itemFlow: Flow<List<KeywordDocument>>,
+    diffUtil: DiffUtil.ItemCallback<KeywordDocument>,
     private val onClick: (data: KeywordDocument) -> Unit
-) : BaseRecyclerAdapter<KeywordDocument, HistoryViewHolder>(itemFlow) {
-    override fun areItemsSame(oldItem: KeywordDocument, newItem: KeywordDocument): Boolean {
-        return (oldItem.place_name == newItem.place_name) && (oldItem.address_name == newItem.address_name)
-    }
+) : BaseRecyclerAdapter<KeywordDocument, HistoryViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -22,7 +19,7 @@ class HistoryRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.onInit(itemList()[position])
+        holder.onInit(currentList[position])
     }
 
 }
