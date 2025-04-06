@@ -2,6 +2,7 @@ package devcon.map.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kakao.vectormap.LatLng
 import devcon.map.repository.DataStoreRepository
 import devcon.map.repository.HistoryRepository
 import devcon.map.repository.RetrofitRepository
@@ -24,7 +25,7 @@ class MainViewModel(
     /** sort 기준을 다듬을 필요가 있을듯? **/
     val historyFlow = historyRepository.historyFlow()
 
-    suspend fun getStartPoint() = Pair(dataStoreRepository.getX(),dataStoreRepository.getY())
+    suspend fun getStartPoint() = dataStoreRepository.getLocation()
 
     private val _contentFlow = MutableStateFlow<List<KeywordDocument>>(emptyList())
     val contentFlow: Flow<List<KeywordDocument>>
@@ -49,6 +50,13 @@ class MainViewModel(
     fun onSelectItem(data: KeywordDocument) {
         CoroutineScope(Dispatchers.IO).launch {
             historyRepository.insertHistory(data)
+        }
+    }
+
+    fun saveLastLocation(coordinate: LatLng) {
+        CoroutineScope(Dispatchers.IO).launch {
+            println("save: ${coordinate.longitude}, ${coordinate.latitude}")
+            dataStoreRepository.saveLocation(coordinate)
         }
     }
 }

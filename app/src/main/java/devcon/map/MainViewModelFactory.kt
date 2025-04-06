@@ -11,13 +11,13 @@ import devcon.map.viewmodel.MainViewModel
 class MainViewModelFactory(
     private val dataStoreRepository: DataStoreRepository,
     private val retrofitRepository: RetrofitRepository,
-    private val historyRepository:HistoryRepository
+    private val historyRepository: HistoryRepository
 ) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return MainViewModel(dataStoreRepository,retrofitRepository,historyRepository) as T
+            return MainViewModel(dataStoreRepository, retrofitRepository, historyRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

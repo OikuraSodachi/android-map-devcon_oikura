@@ -1,24 +1,33 @@
 package devcon.map.repository
 
 import android.content.Context
-import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
+import com.kakao.vectormap.LatLng
 import devcon.map.abstracts.MyDataStore
 
-class DataStoreRepository(context: Context):MyDataStore(context) {
+/** Todo: 백그라운드 상태에서 돌아오면 "There are multiple DataStores active" 에러 발생
+ *  Todo: 로직을 Room 으로 옮기거나 dagger 사용 **/
+class DataStoreRepository(context: Context) : MyDataStore(context) {
 
-    companion object{
-        private val DATASTORE_X = floatPreferencesKey("datastore_x")
-        private val DATASTORE_Y = floatPreferencesKey("datastore_y")
-        private val defaultX = 0f
-        private val defaultY = 0f
+    companion object {
+        private val DATASTORE_X = doublePreferencesKey("datastore_x")
+        private val DATASTORE_Y = doublePreferencesKey("datastore_y")
+        private val defaultX = 126.978652258823
+        private val defaultY = 37.56682420267543
     }
 
-    suspend fun saveX(value:Float) = DATASTORE_X.save(value)
+    private suspend fun saveX(value: Double) = DATASTORE_X.save(value)
     suspend fun getX() = DATASTORE_X.notNullValue(defaultX)
-    val xFlow = DATASTORE_X.flow()
 
-    suspend fun saveY(value:Float) = DATASTORE_Y.save(value)
+    private suspend fun saveY(value: Double) = DATASTORE_Y.save(value)
     suspend fun getY() = DATASTORE_Y.notNullValue(defaultY)
-    val yFlow = DATASTORE_Y.flow()
 
+    suspend fun saveLocation(latLng: LatLng) {
+        saveX(latLng.longitude)
+        saveY(latLng.latitude)
+    }
+
+    suspend fun getLocation(): LatLng {
+        return LatLng.from(getY(), getX())
+    }
 }

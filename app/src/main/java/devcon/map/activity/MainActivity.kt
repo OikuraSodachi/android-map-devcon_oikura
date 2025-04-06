@@ -8,6 +8,7 @@ import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kakao.vectormap.LatLng
 import devcon.learn.contacts.databinding.ActivityMainBinding
 import devcon.map.MainViewModelFactory
 import devcon.map.abstracts.KakaoMapActivity
@@ -28,7 +29,9 @@ class MainActivity : KakaoMapActivity() {
             MainViewModelFactory(
                 dataStoreRepository = DataStoreRepository(applicationContext),
                 retrofitRepository = RetrofitRepository(),
-                historyRepository = HistoryRepository(MyDatabase.getInstance(applicationContext).keywordHistoryDao())
+                historyRepository = HistoryRepository(
+                    MyDatabase.getInstance(applicationContext).keywordHistoryDao()
+                )
             )
         ).get(MainViewModel::class.java)
     }
@@ -39,6 +42,14 @@ class MainActivity : KakaoMapActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setViewLogics()
+    }
+
+    override suspend fun getStartPoint(): LatLng {
+        return viewModel.getStartPoint()
+    }
+
+    override fun saveLastPoint(position: LatLng) {
+        viewModel.saveLastLocation(position)
     }
 
     private fun setViewLogics() {

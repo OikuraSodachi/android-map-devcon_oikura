@@ -8,17 +8,17 @@ import kotlinx.coroutines.flow.map
 class HistoryRepository(private val historyDao: KeywordHistoryDao) {
 
     fun historyFlow() = historyDao.getAll().map {
-        it.map{
+        it.map {
             it.toKeywordDocument()
         }
     }
 
-    suspend fun insertHistory(data: KeywordDocument){
+    suspend fun insertHistory(data: KeywordDocument) {
         historyDao.insert(data.toKeywordHistory())
     }
 
-    suspend fun deleteHistory(placeName:String,addressName:String){
-        historyDao.delete(placeName,addressName)
+    suspend fun deleteHistory(placeName: String, addressName: String) {
+        historyDao.delete(placeName, addressName)
     }
 
     private fun KeywordDocument.toKeywordHistory() = KeywordHistory(

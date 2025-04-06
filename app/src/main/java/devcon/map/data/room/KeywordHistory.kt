@@ -12,9 +12,9 @@ data class KeywordHistory(
     @ColumnInfo val place_name: String,
     @ColumnInfo val address_name: String,
     @ColumnInfo val road_address_name: String,
-    @ColumnInfo val x : String,
-    @ColumnInfo val y : String
-){
+    @ColumnInfo val x: String,
+    @ColumnInfo val y: String
+) {
     fun toKeywordDocument() = KeywordDocument(
         place_name = place_name,
         address_name = address_name,

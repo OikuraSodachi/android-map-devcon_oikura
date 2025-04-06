@@ -15,6 +15,6 @@ interface KeywordHistoryDao {
     suspend fun insert(keywordHistory: KeywordHistory)
 
     @Query("delete from room_keyword_history where place_name = :placeName and address_name = :addressName")
-    suspend fun delete(placeName:String,addressName:String)
+    suspend fun delete(placeName: String, addressName: String)
 
 }

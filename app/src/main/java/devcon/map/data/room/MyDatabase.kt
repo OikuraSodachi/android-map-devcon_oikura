@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [KeywordHistory::class], version = 1, exportSchema = false)
 abstract class MyDatabase : RoomDatabase() {
 
-    abstract fun keywordHistoryDao():KeywordHistoryDao
+    abstract fun keywordHistoryDao(): KeywordHistoryDao
 
     companion object {
         private var instance: MyDatabase? = null
