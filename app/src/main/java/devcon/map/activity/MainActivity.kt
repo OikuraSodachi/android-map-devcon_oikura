@@ -52,18 +52,26 @@ class MainActivity : KakaoMapActivity() {
         viewModel.saveLastLocation(position)
     }
 
-    private fun setViewLogics() {
+    override fun onMapErrorCallback(exception: Exception?) {
+        // TODO: error 발생 시 화면 처리
+    }
 
-        fun enableResultArea(enabled: Boolean) {
-            binding.searchResultArea.visibility = if (enabled) View.VISIBLE else View.GONE
-        }
+    private fun enableResultArea(enabled: Boolean) {
+        binding.searchResultArea.visibility = if (enabled) View.VISIBLE else View.GONE
+    }
+
+    private fun setViewLogics() {
         binding.run {
             mapView.start(mapLifeCycleCallback, kakaoMapReadyCallback)
 
             contentRecyclerView.run {
                 adapter = ContentRecyclerAdapter(
                     itemFlow = viewModel.contentFlow,
-                    onClick = { viewModel.onSelectItem(it) }
+                    onClick = {
+                        enableResultArea(false)
+                        kakaoMapReadyCallback.test(LatLng.from(it.y.toDouble(), it.x.toDouble()))
+                        viewModel.saveHistory(it)
+                    }
                 )
                 layoutManager = LinearLayoutManager(this@MainActivity)
                 addItemDecoration(

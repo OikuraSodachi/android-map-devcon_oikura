@@ -20,27 +20,33 @@ abstract class KakaoMapActivity() : AppCompatActivity() {
 
     abstract val kakaoMapView: MapView
     private val apiKey: String = BuildConfig.APP_KEY
+    private lateinit var kakaoMap: KakaoMap
+    abstract fun onMapErrorCallback(exception: Exception?)
+
     val mapLifeCycleCallback = object : MapLifeCycleCallback() {
+
         override fun onMapDestroy() {
 
         }
 
-        override fun onMapError(p0: Exception?) {
-
+        override fun onMapError(exception: Exception?) {
+            onMapErrorCallback(exception)
         }
     }
 
     abstract suspend fun getStartPoint(): LatLng
     abstract fun saveLastPoint(position: LatLng)
 
-    val kakaoMapReadyCallback = object : KakaoMapReadyCallback() {
+    val kakaoMapReadyCallback = object : MapReadyCallback() {
+
         override fun onMapReady(map: KakaoMap) {
+            kakaoMap = map
             lifecycleScope.launch {
                 map.moveCamera(
-                    CameraUpdateFactory.newCenterPosition(getStartPoint())
+                    cameraMoveCallback(getStartPoint())
                 )
             }
-            map.setOnCameraMoveEndListener { kakaoMap, cameraPosition, gestureType ->
+            map.setOnCameraMoveEndListener { _, cameraPosition, _ ->
                 saveLastPoint(cameraPosition.position)
             }
         }
@@ -61,4 +67,10 @@ abstract class KakaoMapActivity() : AppCompatActivity() {
         kakaoMapView.pause()
     }
 
+    abstract inner class MapReadyCallback() : KakaoMapReadyCallback() {
+        fun cameraMoveCallback(latLng: LatLng) = CameraUpdateFactory.newCenterPosition(latLng)
+        fun test(latLng: LatLng) {
+            kakaoMap.moveCamera(cameraMoveCallback(latLng))
+        }
+    }
 }

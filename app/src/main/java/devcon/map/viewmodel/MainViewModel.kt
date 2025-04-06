@@ -47,7 +47,7 @@ class MainViewModel(
         }
     }
 
-    fun onSelectItem(data: KeywordDocument) {
+    fun saveHistory(data: KeywordDocument) {
         CoroutineScope(Dispatchers.IO).launch {
             historyRepository.insertHistory(data)
         }

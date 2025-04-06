@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.doublePreferencesKey
 import com.kakao.vectormap.LatLng
 import devcon.map.abstracts.MyDataStore
 
-/** Todo: 백그라운드 상태에서 돌아오면 "There are multiple DataStores active" 에러 발생
+/** Todo: "There are multiple DataStores active" 에러 발생
  *  Todo: 로직을 Room 으로 옮기거나 dagger 사용 **/
 class DataStoreRepository(context: Context) : MyDataStore(context) {
 
